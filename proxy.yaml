@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kpng-example-proxy
+spec:
+  selector:
+    matchLabels:
+      app: kpng-example-proxy
+  template:
+    metadata:
+      labels:
+        app: kpng-example-proxy
+    spec:
+      serviceAccountName: kpng-example
+      hostNetwork: true
+      containers:
+      - name: kpng
+        image: egegunes/kpng-hacking:latest
+        imagePullPolicy: Always
+        env:
+        - name: PROXY_NAME
+          value: kpng-example
+        securityContext:
+          privileged: true
